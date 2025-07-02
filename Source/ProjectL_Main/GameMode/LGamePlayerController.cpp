@@ -40,7 +40,20 @@ void ALGamePlayerController::BeginPlay()
 			EnhancedInput->BindAction(RightClickAction, ETriggerEvent::Triggered, this, &ALGamePlayerController::OnRightClick);
 		}
 	}
+
+
+	// 카메라 스폰을 0.5초 지연하여 실행
+	if (IsLocalController())
+	{
+		GetWorldTimerManager().SetTimer(CameraSpawnTimerHandle, this, &ALGamePlayerController::SpawnPlayerCamera, 1.0f, false);
+	}
+
+	
+
 }
+
+
+
 
 
 void ALGamePlayerController::OnRightClick(const FInputActionValue& Value)
@@ -140,4 +153,39 @@ void ALGamePlayerController::Tick(float DeltaTime)
 
 	ControlledPawn->AddMovementInput(MoveDir, 1.0f);
 
+}
+
+
+void ALGamePlayerController::SpawnPlayerCamera()
+{
+	APawn* MyPawn = GetPawn();
+	if (!MyPawn)
+	{
+		UE_LOG(LogTemp, Error, TEXT("SpawnPlayerCamera: GetPawn() returned nullptr."));
+		return;
+	}
+
+	if (!CameraActorClass)
+	{
+		UE_LOG(LogTemp, Error, TEXT("SpawnPlayerCamera: CameraActorClass is null."));
+		return;
+	}
+
+	FVector CameraSpawnLocation = MyPawn->GetActorLocation() + FVector(-500.f, 0.f, 300.f);
+	FRotator CameraSpawnRotation = (MyPawn->GetActorLocation() - CameraSpawnLocation).Rotation();
+
+	FActorSpawnParameters Params;
+	Params.Owner = this;
+	Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+	PlayerCamera = GetWorld()->SpawnActor<AActor>(CameraActorClass, CameraSpawnLocation, CameraSpawnRotation, Params);
+
+	if (!PlayerCamera)
+	{
+		UE_LOG(LogTemp, Error, TEXT("SpawnPlayerCamera: Camera spawn failed!"));
+		return;
+	}
+
+	SetViewTarget(PlayerCamera);
+	UE_LOG(LogTemp, Warning, TEXT("SpawnPlayerCamera: Camera spawned and view target set."));
 }

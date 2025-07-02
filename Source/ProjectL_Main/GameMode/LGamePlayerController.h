@@ -21,6 +21,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
 	bool bCanMove = true;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Camera")
+	TSubclassOf<AActor> CameraActorClass;
+
+	UPROPERTY()
+	AActor* PlayerCamera = nullptr;
+
+
 
 protected:
 	virtual void BeginPlay() override;
@@ -33,6 +40,14 @@ protected:
 	// 서버에 목표 좌표 전달
 	UFUNCTION(Server, Reliable)
 	void Server_SetTargetLocation(const FVector& Location);
+
+
+
+
+	FTimerHandle CameraSpawnTimerHandle;
+
+	void SpawnPlayerCamera(); // 딜레이 후 실행될 함수
+
 
 	// 이동 관련 변수
 	UPROPERTY()
