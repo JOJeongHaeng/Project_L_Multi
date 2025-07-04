@@ -42,7 +42,7 @@ void ALGamePlayerController::BeginPlay()
 	}
 
 
-	// 카메라 스폰을 0.5초 지연하여 실행
+	// 카메라 스폰을 1초 지연하여 실행
 	if (IsLocalController())
 	{
 		GetWorldTimerManager().SetTimer(CameraSpawnTimerHandle, this, &ALGamePlayerController::SpawnPlayerCamera, 1.0f, false);
