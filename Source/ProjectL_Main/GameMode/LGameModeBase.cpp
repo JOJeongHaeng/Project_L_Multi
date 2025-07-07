@@ -13,7 +13,7 @@ void ALGameModeBase::BeginPlay()
 
 	UE_LOG(LogTemp, Log, TEXT("GameMode: BeginPlay on Server"));
 
-}
+}	
 
 void ALGameModeBase::PostLogin(APlayerController* NewPlayer)
 {
