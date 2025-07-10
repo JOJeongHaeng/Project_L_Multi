@@ -16,7 +16,7 @@ class PROJECTL_MAIN_API ALobbyGS : public AGameStateBase
 public:
 
 	UPROPERTY(ReplicatedUsing = "OnRep_LeftTime")
-	uint16 LeftTime = 10;
+	uint16 LeftTime = 60;
 
 	UPROPERTY(ReplicatedUsing = OnRep_ConnectCount)
 	uint16 ConnectCount = 0;

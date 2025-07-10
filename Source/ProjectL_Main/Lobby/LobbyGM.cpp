@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
 #include "LobbyGM.h"
@@ -90,5 +90,16 @@ void ALobbyGM::DecreaseTime()
 
 void ALobbyGM::StartGame()
 {
-	GetWorld()->ServerTravel(TEXT("Map_L"));
+	ALobbyGS* GS = GetGameState<ALobbyGS>();
+	if (GS)
+	{
+		if (GS->ConnectCount >= 2)
+		{
+			GetWorld()->ServerTravel(TEXT("Map_L"));
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("2인 이상이어야 시작 가능합니다."));
+		}
+	}
 }
