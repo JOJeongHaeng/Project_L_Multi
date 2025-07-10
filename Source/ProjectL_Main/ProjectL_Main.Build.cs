@@ -15,7 +15,9 @@ public class ProjectL_Main : ModuleRules
             "Engine",
             "InputCore",
             "EnhancedInput",
-            "GameplayTasks"
+            "GameplayTasks",
+            "Slate",
+            "SlateCore"
         });
 
         PrivateDependencyModuleNames.AddRange(new string[] { });
